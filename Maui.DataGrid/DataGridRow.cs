@@ -464,7 +464,11 @@ internal sealed class DataGridRow : Grid
 
     private void DataGrid_ItemSelected(object? sender, SelectionChangedEventArgs e)
     {
-        if (_wasSelected || (e.CurrentSelection.Count > 0 && e.CurrentSelection.Any(s => s == BindingContext)))
+        if (_wasSelected
+            || e.CurrentSelection.Any(s => s == BindingContext)
+            //EGU added also condition to unselect items
+            || e.PreviousSelection.Any(s => s == BindingContext)
+            )
         {
             UpdateSelectedState();
             UpdateColors();
