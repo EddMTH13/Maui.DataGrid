@@ -434,12 +434,14 @@ internal sealed class DataGridRow : Grid
 
         var isSelected = DataGrid.SelectionMode != SelectionMode.None && _wasSelected;
 
-        CellBackgroundColor = isSelected
-                ? DataGrid.ActiveRowColor
-                : DataGrid.RowsBackgroundColorPalette.GetColor(rowIndex, BindingContext);
-        CellTextColor = isSelected
-                ? InverseColor(DataGrid.ActiveRowColor)
-                : DataGrid.RowsTextColorPalette.GetColor(rowIndex, BindingContext);
+        //EGU changes need, as this logic is not enough for our needs
+        CellBackgroundColor = isSelected && DataGrid.ActiveRowColor != null
+                            ? DataGrid.ActiveRowColor
+                            : DataGrid.RowsBackgroundColorPalette.GetColor(rowIndex, BindingContext);
+
+        CellTextColor = isSelected && DataGrid.ActiveRowColor != null
+                      ? InverseColor(DataGrid.ActiveRowColor)
+                      : DataGrid.RowsTextColorPalette.GetColor(rowIndex, BindingContext);
     }
 
     private void OnRowsTextColorPaletteChanged(object? sender, EventArgs e)
@@ -466,7 +468,7 @@ internal sealed class DataGridRow : Grid
     {
         if (_wasSelected
             || e.CurrentSelection.Any(s => s == BindingContext)
-            //EGU added also condition to unselect items
+            // EGU added also condition to unselect items
             || e.PreviousSelection.Any(s => s == BindingContext)
             )
         {
