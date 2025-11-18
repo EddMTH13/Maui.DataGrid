@@ -181,7 +181,7 @@ internal sealed class DataGridRow : Grid
     private static Color InverseColor(Color color)
     {
         var brightness = (0.299 * color.Red) + (0.587 * color.Green) + (0.114 * color.Blue);
-        return brightness < 0.5 ? Colors.White : Colors.Black;
+        return brightness < 0.49 ? Colors.White : Colors.Black;
     }
 
     private void InitializeRow()
