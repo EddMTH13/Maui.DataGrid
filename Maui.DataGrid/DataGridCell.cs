@@ -50,7 +50,10 @@ internal sealed class DataGridCell : ContentView
 
     internal void UpdateCellBackgroundColor(Color? bgColor)
     {
-        foreach (var child in Children)
+        //var children = Children;
+        var children = ((IVisualTreeElement)this).GetVisualChildren();
+
+        foreach (var child in children)
         {
             if (child is ContentView cellContent)
             {
@@ -61,7 +64,10 @@ internal sealed class DataGridCell : ContentView
 
     internal void UpdateCellTextColor(Color? textColor)
     {
-        foreach (var child in Children)
+        //var children = Children;
+        var children = ((IVisualTreeElement)this).GetVisualChildren();
+
+        foreach (var child in children)
         {
             if (child is ContentView cellContent && cellContent.Content is Label label)
             {
