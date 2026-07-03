@@ -1,20 +1,21 @@
 namespace Maui.DataGrid;
 
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
+using System.Diagnostics;
 using System.Windows.Input;
-using Maui.DataGrid.Collections;
-using Maui.DataGrid.Extensions;
+using System.ComponentModel;
 using Microsoft.Maui.Controls;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Concurrent;
+using System.Collections.Specialized;
 using Microsoft.Maui.Controls.Shapes;
+using System.Diagnostics.CodeAnalysis;
+
+using Maui.DataGrid.Extensions;
+using Maui.DataGrid.Collections;
 using Font = Microsoft.Maui.Font;
 
 #pragma warning disable CA1724
@@ -25,6 +26,46 @@ using Font = Microsoft.Maui.Font;
 [XamlCompilation(XamlCompilationOptions.Compile)]
 public partial class DataGrid
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGrid"/> class.
+    /// </summary>
+    public DataGrid()
+    {
+        InitializeComponent();
+
+        DefaultHeaderLabelStyle = (Style)Resources["DefaultHeaderLabelStyle"];
+        DefaultHeaderFilterStyle = (Style)Resources["DefaultHeaderFilterStyle"];
+        DefaultSortIconStyle = (Style)Resources["DefaultSortIconStyle"];
+
+        if (_collectionView != null)
+        {
+            _collectionView.ItemsSource = InternalItems;
+        }
+
+        //EGU exposed another property - to use with that GridSync behavior..
+        HeaderRowGrid = _headerRow;
+    }
+
+    /// <summary>
+    /// Exposes the internal header row grid reference so external utilities can bind or synchronize with it.
+    /// </summary>
+    public static readonly BindableProperty HeaderRowGridProperty =
+        BindablePropertyExtensions.Create<DataGrid, Grid>(
+            defaultValue: null,
+            propertyChanged: (b, o, n) =>
+            {
+                // Optional: Handle any internal setup if the header row changes dynamically
+            });
+
+    /// <summary>
+    /// Gets the internal header row grid wrapper.
+    /// </summary>
+    public Grid HeaderRowGrid
+    {
+        get => (Grid)GetValue(HeaderRowGridProperty);
+        private set => SetValue(HeaderRowGridProperty, value);
+    }
+
     /// <summary>
     /// Gets or sets the color of the active row.
     /// </summary>
@@ -700,23 +741,6 @@ public partial class DataGrid
     private DataGridColumn? _sortedColumn;
     private HashSet<object>? _internalItemsHashSet;
     private int _pageCount = 100;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DataGrid"/> class.
-    /// </summary>
-    public DataGrid()
-    {
-        InitializeComponent();
-
-        DefaultHeaderLabelStyle = (Style)Resources["DefaultHeaderLabelStyle"];
-        DefaultHeaderFilterStyle = (Style)Resources["DefaultHeaderFilterStyle"];
-        DefaultSortIconStyle = (Style)Resources["DefaultSortIconStyle"];
-
-        if (_collectionView != null)
-        {
-            _collectionView.ItemsSource = InternalItems;
-        }
-    }
 
     /// <summary>
     /// Occurs when an item is selected in the DataGrid.

@@ -3,7 +3,21 @@
 <Suppressions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Suppression>
     <DiagnosticId>CP0002</DiagnosticId>
+    <Target>F:Maui.DataGrid.DataGrid.HeaderRowGridProperty</Target>
+    <Left>lib/net9.0/Maui.DataGrid.dll</Left>
+    <Right>lib/net9.0/Maui.DataGrid.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
     <Target>F:Maui.DataGrid.DataGridColumn.PaddingProperty</Target>
+    <Left>lib/net9.0/Maui.DataGrid.dll</Left>
+    <Right>lib/net9.0/Maui.DataGrid.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Maui.DataGrid.DataGrid.get_HeaderRowGrid</Target>
     <Left>lib/net9.0/Maui.DataGrid.dll</Left>
     <Right>lib/net9.0/Maui.DataGrid.dll</Right>
     <IsBaselineSuppression>true</IsBaselineSuppression>
